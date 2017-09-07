@@ -6,6 +6,18 @@ namespace Luminosity.Debug.UI
 	{
 		public bool Success;
 		public string Error;
+
+		public FeedbackFormResult(bool success, string error)
+		{
+			Success = success;
+			Error = error;
+		}
+
+		public FeedbackFormResult(string error)
+		{
+			Success = error == null;
+			Error = error;
+		}
 	}
 
 	public interface IFeedbackForm

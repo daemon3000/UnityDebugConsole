@@ -5,6 +5,6 @@ namespace Luminosity.Debug.UI
 	{
 		Bug = 0, 
 		Suggestion,
-		Feedback
+		Other
 	}
 }

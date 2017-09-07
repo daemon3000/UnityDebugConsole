@@ -102,7 +102,7 @@ namespace Luminosity.Debug.UI
 			{
 				FeedbackType.Bug.ToString(),
 				FeedbackType.Suggestion.ToString(),
-				FeedbackType.Feedback.ToString(),
+				FeedbackType.Other.ToString(),
 			});
 		}
 
@@ -290,7 +290,7 @@ namespace Luminosity.Debug.UI
 				m_screenshotToggle.isOn = false;
 				m_systemInfoToggle.interactable = false;
 				m_systemInfoToggle.isOn = false;
-				m_subjectFieldPlaceholder.text = "Enter a short summary of the enhancement...";
+				m_subjectFieldPlaceholder.text = "Enter a short summary of your feedback...";
 				m_contentFieldLabel.text = "How can we improve the game?";
 				m_contentFieldPlaceholder.text = "Tell us how we can make the game better...";
 			}

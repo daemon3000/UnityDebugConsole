@@ -2059,7 +2059,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224391008563620116}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.2
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3175,7 +3175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0be0b2f0660e35d44997dba1a651628c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_iconSpinSpeed: 270
+  m_iconSpinSpeed: -270
 --- !u!114 &114275038368677924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4163,7 +4163,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter your <b>Email</b> address...
+  m_Text: Enter your <b>EMAIL</b> address...
 --- !u!114 &114499177558479722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7569,7 +7569,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: 0, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224217367441034840
 RectTransform:
@@ -7998,7 +7998,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.2}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8135,7 +8135,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -18, y: 0}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224442842085061694
 RectTransform:

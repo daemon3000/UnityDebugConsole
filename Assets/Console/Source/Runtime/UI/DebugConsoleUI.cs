@@ -196,12 +196,15 @@ namespace Luminosity.Debug.UI
 					size.x = m_minWindowSize.x;
 				if(size.y < m_minWindowSize.y)
 					size.y = m_minWindowSize.y;
-				if(size.x > Screen.width - m_padding.x * 2)
-					size.x = Screen.width - m_padding.x * 2;
-				if(size.y > Screen.height - m_padding.y * 2)
-					size.y = Screen.height - m_padding.y * 2;
+				if(size.x > Screen.width - m_panel.anchoredPosition.x - m_padding.x)
+					size.x = Screen.width - m_panel.anchoredPosition.x - m_padding.x;
+				if(size.y > Screen.height + m_panel.anchoredPosition.y - m_padding.y)
+					size.y = Screen.height + m_panel.anchoredPosition.y - m_padding.y;
 
 				m_panel.sizeDelta = size;
+				m_stackTraceLayout.preferredHeight = Mathf.Clamp(m_stackTraceLayout.preferredHeight,
+																  m_minStackTraceFieldHeight,
+																  m_stackTranceParent.rect.size.y - m_minStackTraceFieldTopPadding);
 			}
 		}
 
@@ -224,6 +227,28 @@ namespace Luminosity.Debug.UI
 				m_stackTraceLayout.preferredHeight = Mathf.Clamp(m_stackTraceLayout.preferredHeight,
 																  m_minStackTraceFieldHeight,
 																  parentSize.y - m_minStackTraceFieldTopPadding);
+			}
+		}
+
+		public void OnBeginWindowDrag(BaseEventData eventData)
+		{
+		}
+
+		public void OnEndWindowDrag(BaseEventData eventData)
+		{
+			SaveLayoutChanges();
+		}
+
+		public void OnWindowDrag(BaseEventData eventData)
+		{
+			PointerEventData pointerData = eventData as PointerEventData;
+			if(pointerData != null)
+			{
+				Vector2 position = m_panel.anchoredPosition + pointerData.delta;
+				position.x = Mathf.Clamp(position.x, m_padding.x, Screen.width - m_panel.sizeDelta.x - m_padding.x);
+				position.y = Mathf.Clamp(position.y, -Screen.height + m_panel.sizeDelta.y + m_padding.y, -m_padding.y);
+
+				m_panel.anchoredPosition = position;
 			}
 		}
 
@@ -298,22 +323,24 @@ namespace Luminosity.Debug.UI
 
 		private void SaveLayoutChanges()
 		{
-			DebugConsolePrefs.SetVector2("WindowSize", m_panel.sizeDelta);
-			DebugConsolePrefs.SetFloat("StackTraceHeight", m_stackTraceLayout.preferredHeight);
+			DebugConsolePrefs.SetVector2("Console_Size", m_panel.sizeDelta);
+			DebugConsolePrefs.SetVector2("Console_Position", m_panel.anchoredPosition);
+			DebugConsolePrefs.SetFloat("Console_StackTraceHeight", m_stackTraceLayout.preferredHeight);
 			for(int i = 0; i < m_filters.Length; i++)
 			{
-				DebugConsolePrefs.SetBool("Filter_" + i, m_filters[i].IsOn);
+				DebugConsolePrefs.SetBool("Console_Filter_" + i, m_filters[i].IsOn);
 			}
 		}
 
 		private void LoadLayoutChanges()
 		{
-			m_panel.sizeDelta = DebugConsolePrefs.GetVector2("WindowSize", m_minWindowSize);
-			m_stackTraceLayout.preferredHeight = DebugConsolePrefs.GetFloat("StackTraceHeight", m_stackTraceLayout.preferredHeight);
+			m_panel.sizeDelta = DebugConsolePrefs.GetVector2("Console_Size", m_minWindowSize);
+			m_panel.anchoredPosition = DebugConsolePrefs.GetVector2("Console_Position", new Vector2(m_padding.x, -m_padding.y));
+			m_stackTraceLayout.preferredHeight = DebugConsolePrefs.GetFloat("Console_StackTraceHeight", m_stackTraceLayout.preferredHeight);
 			for(int i = 0; i < m_filters.Length; i++)
 			{
 				m_filters[i].Changed -= HandleMessageFilterChanged;
-				m_filters[i].IsOn = DebugConsolePrefs.GetBool("Filter_" + i, true);
+				m_filters[i].IsOn = DebugConsolePrefs.GetBool("Console_Filter_" + i, true);
 				m_filters[i].Changed += HandleMessageFilterChanged;
 			}
 		}
@@ -321,6 +348,7 @@ namespace Luminosity.Debug.UI
 		public void ResetLayout()
 		{
 			m_stackTraceLayout.preferredHeight = m_defaultStackTraceHeight;
+			m_panel.anchoredPosition = new Vector2(m_padding.x, -m_padding.y);
 			m_panel.sizeDelta = m_minWindowSize;
 			for(int i = 0; i < m_filters.Length; i++)
 			{

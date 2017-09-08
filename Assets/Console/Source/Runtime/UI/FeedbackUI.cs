@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Luminosity.Debug.Internal;
 using UnityDebug = UnityEngine.Debug;
 using _InputField = UnityEngine.UI.InputField;
+using UnityEngine.EventSystems;
 
 namespace Luminosity.Debug.UI
 {
@@ -36,6 +37,8 @@ namespace Luminosity.Debug.UI
 		private Toggle m_screenshotToggle;
 		[SerializeField]
 		private Toggle m_systemInfoToggle;
+		[SerializeField]
+		private Vector2 m_padding;
 
 		private CanvasGroup m_canvasGroup;
 
@@ -104,6 +107,8 @@ namespace Luminosity.Debug.UI
 				FeedbackType.Suggestion.ToString(),
 				FeedbackType.Other.ToString(),
 			});
+
+			LoadLayoutChanges();
 		}
 
 		public void Open()
@@ -329,6 +334,51 @@ namespace Luminosity.Debug.UI
 		{
 			m_canvasGroup.interactable = false;
 			m_dialogBox.Open(message, buttonLayout, res => m_canvasGroup.interactable = true);
+		}
+
+		public void OnBeginWindowDrag(BaseEventData eventData)
+		{
+		}
+
+		public void OnEndWindowDrag(BaseEventData eventData)
+		{
+			SaveLayoutChanges();
+		}
+
+		public void OnWindowDrag(BaseEventData eventData)
+		{
+			PointerEventData pointerData = eventData as PointerEventData;
+			if(pointerData != null)
+			{
+				Vector2 position = m_panel.anchoredPosition + pointerData.delta;
+				position.x = Mathf.Clamp(position.x, m_padding.x, Screen.width - m_panel.sizeDelta.x - m_padding.x);
+				position.y = Mathf.Clamp(position.y, -Screen.height + m_panel.sizeDelta.y + m_padding.y, -m_padding.y);
+
+				m_panel.anchoredPosition = position;
+			}
+		}
+
+		private void SaveLayoutChanges()
+		{
+			DebugConsolePrefs.SetVector2("FeedbackUI_Position", m_panel.anchoredPosition);
+		}
+
+		private void LoadLayoutChanges()
+		{
+			Vector2 defPosition;
+			defPosition.x = Screen.width / 2 - m_panel.sizeDelta.x / 2;
+			defPosition.y = -(Screen.height / 2 - m_panel.sizeDelta.y / 2);
+
+			m_panel.anchoredPosition = DebugConsolePrefs.GetVector2("FeedbackUI_Position", defPosition);
+		}
+
+		public void ResetLayout()
+		{
+			Vector2 defPosition;
+			defPosition.x = Screen.width / 2 - m_panel.sizeDelta.x / 2;
+			defPosition.y = -(Screen.height / 2 - m_panel.sizeDelta.y / 2);
+
+			m_panel.anchoredPosition = defPosition;
 		}
 	}
 }

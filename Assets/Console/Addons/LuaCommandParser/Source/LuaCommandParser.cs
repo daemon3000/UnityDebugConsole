@@ -53,6 +53,14 @@ namespace Luminosity.Debug
 			DebugConsole.CommandParser = this;
 		}
 
+		private void OnDestroy()
+		{
+			if(DebugConsole.CommandParser == (ICommandParser)this)
+			{
+				DebugConsole.CommandParser = null;
+			}
+		}
+
 		public void Run(string command)
 		{
 			if(string.IsNullOrEmpty(command))

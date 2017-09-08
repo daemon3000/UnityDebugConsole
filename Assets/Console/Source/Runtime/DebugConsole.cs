@@ -87,6 +87,7 @@ namespace Luminosity.Debug
 				else if(command == "reset")
 				{
 					m_consoleWindow.ResetLayout();
+					m_feedbackUI.ResetLayout();
 				}
 				else if(!string.IsNullOrEmpty(command))
 				{

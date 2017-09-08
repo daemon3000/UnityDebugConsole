@@ -32,6 +32,14 @@ namespace Luminosity.Debug.Examples
 			m_feedbackUI.FeedbackForm = this;
 		}
 
+		private void OnDestroy()
+		{
+			if(m_feedbackUI != null && m_feedbackUI.FeedbackForm == (IFeedbackForm)this)
+			{
+				m_feedbackUI.FeedbackForm = null;
+			}
+		}
+
 		public void Send(UnityAction<FeedbackFormResult> onDone)
 		{
 			m_onDone = onDone;

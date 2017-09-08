@@ -1269,10 +1269,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4068298862128170}
   - component: {fileID: 114675619181431962}
-  - component: {fileID: 114323611463590440}
   - component: {fileID: 114473581887476170}
   m_Layer: 0
-  m_Name: debug_ui
+  m_Name: debug_console
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3706,17 +3705,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_targetImage: {fileID: 114896257721071350}
   m_invert: 1
---- !u!114 &114323611463590440
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1676600510626830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e81f3dc5b7ff1e145949e97ffaf797c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114324542983041228
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5627,7 +5615,7 @@ MonoBehaviour:
   m_consoleWindow: {fileID: 114263625423672738}
   m_feedbackUI: {fileID: 114738671504862480}
   m_debugLevel: 2
-  m_createEventSystem: 1
+  m_createEventSystem: 0
   m_dontDestroyOnLoad: 0
 --- !u!114 &114676051047656968
 MonoBehaviour:

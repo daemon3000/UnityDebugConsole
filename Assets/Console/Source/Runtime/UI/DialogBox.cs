@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Luminosity.Debug.UI
+namespace Luminosity.Console.UI
 {
 	public class DialogBox : MonoBehaviour
 	{

@@ -1,5 +1,5 @@
 ﻿
-namespace Luminosity.Debug
+namespace Luminosity.Console
 {
 	public enum LogLevel
 	{

@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Luminosity.Debug.Internal;
-using UnityDebug = UnityEngine.Debug;
+using Luminosity.Console.Internal;
 using _InputField = UnityEngine.UI.InputField;
-using UnityEngine.EventSystems;
 
-namespace Luminosity.Debug.UI
+namespace Luminosity.Console.UI
 {
 	public class FeedbackUI : MonoBehaviour
 	{
@@ -229,7 +228,7 @@ namespace Luminosity.Debug.UI
 			}
 			else
 			{
-				UnityDebug.LogError(result.Error);
+				Debug.LogError(result.Error);
 				ShowDialogBox("Your bug report could not be sent! Please try again.",
 							  DialogBox.ButtonLayout.OK);
 			}
@@ -271,7 +270,7 @@ namespace Luminosity.Debug.UI
 			}
 			else
 			{
-				UnityDebug.LogError(result.Error);
+				Debug.LogError(result.Error);
 				ShowDialogBox("Your feedback could not be sent! Please try again.",
 							  DialogBox.ButtonLayout.OK);
 			}
@@ -323,7 +322,7 @@ namespace Luminosity.Debug.UI
 			}
 			else
 			{
-				UnityDebug.LogError(loadFileWWW.error);
+				Debug.LogError(loadFileWWW.error);
 				onDone(null);
 			}
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
-using Luminosity.Debug.UI;
+using Luminosity.Console.UI;
 
 namespace LuminosityEditor.Inspectors
 {

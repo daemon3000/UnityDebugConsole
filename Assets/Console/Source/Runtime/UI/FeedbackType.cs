@@ -1,5 +1,5 @@
 ﻿
-namespace Luminosity.Debug.UI
+namespace Luminosity.Console.UI
 {
 	public enum FeedbackType
 	{

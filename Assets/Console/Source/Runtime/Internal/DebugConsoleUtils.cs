@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Luminosity.Debug.Internal
+namespace Luminosity.Console.Internal
 {
 	public static class DebugConsoleUtils
 	{

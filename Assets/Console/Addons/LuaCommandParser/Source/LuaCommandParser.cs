@@ -5,9 +5,8 @@ using System.Text;
 using System.Reflection;
 using System.Collections.Generic;
 using MoonSharp.Interpreter;
-using UnityDebug = UnityEngine.Debug;
 
-namespace Luminosity.Debug
+namespace Luminosity.Console
 {
 	public class LuaCommandParser : MonoBehaviour, ICommandParser
 	{
@@ -32,7 +31,7 @@ namespace Luminosity.Debug
 			m_helpString.AppendLine();
 
 			m_luaScript = new Script(CoreModules.Preset_HardSandbox);
-			m_luaScript.Options.DebugPrint = message => UnityDebug.Log(message);
+			m_luaScript.Options.DebugPrint = message => Debug.Log(message);
 
 			Assembly assembly = GetType().Assembly;
 			Type cpType = typeof(LuaCommandModule);
@@ -99,6 +98,7 @@ namespace Luminosity.Debug
 			m_helpString.AppendFormat("<size=20><b>{0}</b></size>\n", commandModule.Name.ToUpper());
 			DocumentProperties(commandModule);
 			DocumentMethods(commandModule);
+			m_helpString.AppendLine();
 		}
 
 		private void DocumentMethods(LuaCommandModule commandModule)

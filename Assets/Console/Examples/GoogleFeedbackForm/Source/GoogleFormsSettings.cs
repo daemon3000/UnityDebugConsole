@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Luminosity.Debug.Examples
+namespace Luminosity.Console.Examples
 {
 	[CreateAssetMenu(menuName = "Luminosity/Google Forms Settings")]
 	public class GoogleFormsSettings : ScriptableObject

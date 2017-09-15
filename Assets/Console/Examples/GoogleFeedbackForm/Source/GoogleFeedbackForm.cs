@@ -4,10 +4,9 @@ using UnityEngine.Networking;
 using System;
 using System.Xml.Linq;
 using System.Collections;
-using Luminosity.Debug.UI;
-using UnityDebug = UnityEngine.Debug;
+using Luminosity.Console.UI;
 
-namespace Luminosity.Debug.Examples
+namespace Luminosity.Console.Examples
 {
 	public class GoogleFeedbackForm : MonoBehaviour, IFeedbackForm
 	{
@@ -116,7 +115,7 @@ namespace Luminosity.Debug.Examples
 
 			if(uploadRequest.isError)
 			{
-				UnityDebug.LogError(uploadRequest.error);
+				Debug.LogError(uploadRequest.error);
 				onSetResult("N/A");
 			}
 			else

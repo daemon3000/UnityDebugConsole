@@ -1,6 +1,6 @@
 ﻿using UnityEngine.EventSystems;
 
-namespace Luminosity.Debug.UI
+namespace Luminosity.Console.UI
 {
 	public class InputField : UnityEngine.UI.InputField
 	{

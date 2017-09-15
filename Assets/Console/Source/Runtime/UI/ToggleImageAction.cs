@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Luminosity.Debug.UI
+namespace Luminosity.Console.UI
 {
 	public class ToggleImageAction : MonoBehaviour
 	{

@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Luminosity.Debug.UI
+namespace Luminosity.Console.UI
 {
 	public class MessageFilter : MonoBehaviour
 	{

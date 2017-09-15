@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Events;
 
-namespace Luminosity.Debug.UI
+namespace Luminosity.Console.UI
 {
 	public struct FeedbackFormResult
 	{

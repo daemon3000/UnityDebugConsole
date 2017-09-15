@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Luminosity.Debug.UI
+namespace Luminosity.Console.UI
 {
 	public class SpinningIcon : MonoBehaviour
 	{

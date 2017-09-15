@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using Luminosity.Debug.Internal;
+using Luminosity.Console.Internal;
 
-namespace Luminosity.Debug
+namespace Luminosity.Console
 {
 	public class StandardCommandModule : LuaCommandModule
 	{

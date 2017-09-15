@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Luminosity.Debug
+namespace Luminosity.Console
 {
 	public class LuaCommandAttribute : Attribute
 	{

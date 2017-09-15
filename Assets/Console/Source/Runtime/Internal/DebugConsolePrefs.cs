@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-namespace Luminosity.Debug.Internal
+namespace Luminosity.Console.Internal
 {
 	public static class DebugConsolePrefs
 	{

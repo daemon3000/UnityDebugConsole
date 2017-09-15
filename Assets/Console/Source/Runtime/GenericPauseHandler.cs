@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Luminosity.Debug
+namespace Luminosity.Console
 {
 	public class GenericPauseHandler : MonoBehaviour, IPauseHandler
 	{

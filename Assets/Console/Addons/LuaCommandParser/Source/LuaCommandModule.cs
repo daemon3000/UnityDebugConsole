@@ -3,7 +3,7 @@ using MoonSharp.Interpreter.Interop;
 using System;
 using System.Collections.Generic;
 
-namespace Luminosity.Debug
+namespace Luminosity.Console
 {
 	public abstract class LuaCommandModule
 	{

@@ -1,10 +1,9 @@
 ﻿using System;
 using UnityEngine;
-using UnityDebug = UnityEngine.Debug;
 using UnityEngine.Events;
-using Luminosity.Debug.UI;
+using Luminosity.Console.UI;
 
-namespace Luminosity.Debug
+namespace Luminosity.Console
 {
 	public class DebugConsole : MonoBehaviour
 	{
@@ -52,7 +51,7 @@ namespace Luminosity.Debug
 			}
 			else
 			{
-				UnityDebug.LogError("You can't have more than one Debug Console in the game!");
+				Debug.LogError("You can't have more than one Debug Console in the game!");
 				GameObject.Destroy(gameObject);
 			}
 		}

@@ -3,9 +3,9 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
-using Luminosity.Debug.Internal;
+using Luminosity.Console.Internal;
 
-namespace Luminosity.Debug.UI
+namespace Luminosity.Console.UI
 {
 	public class DebugConsoleUI : MonoBehaviour
 	{

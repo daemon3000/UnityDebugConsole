@@ -5,6 +5,7 @@ using System.Text;
 using System.Reflection;
 using System.Collections.Generic;
 using MoonSharp.Interpreter;
+using Luminosity.Console.Reflection;
 
 namespace Luminosity.Console
 {
@@ -33,11 +34,11 @@ namespace Luminosity.Console
 			m_luaScript = new Script(CoreModules.Preset_HardSandbox);
 			m_luaScript.Options.DebugPrint = message => Debug.Log(message);
 
-			Assembly assembly = GetType().Assembly;
+			Assembly assembly = ReflectionUtils.GetAssembly(GetType());
 			Type cpType = typeof(LuaCommandModule);
 
 			var types = from tp in assembly.GetTypes()
-						where !tp.IsAbstract && cpType.IsAssignableFrom(tp)
+						where !ReflectionUtils.IsAbstract(tp) && cpType.IsAssignableFrom(tp)
 						select tp;
 
 			foreach(var type in types)
@@ -109,7 +110,7 @@ namespace Luminosity.Console
 
 			foreach(var method in methods)
 			{
-				var luaCommandAttribute = Attribute.GetCustomAttribute(method, typeof(LuaCommandAttribute)) as LuaCommandAttribute;
+				var luaCommandAttribute = ReflectionUtils.GetCustomAttribute<LuaCommandAttribute>(method);
 				if(luaCommandAttribute != null)
 				{
 					m_helpString.Append("\u2022 <color=#3255FFFF>");
@@ -149,11 +150,11 @@ namespace Luminosity.Console
 		{
 			Type type = commandModule.GetType();
 			var properties = from pi in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-						  select pi;
+							 select pi;
 
 			foreach(var property in properties)
 			{
-				var luaCommandAttribute = Attribute.GetCustomAttribute(property, typeof(LuaCommandAttribute)) as LuaCommandAttribute;
+				var luaCommandAttribute = ReflectionUtils.GetCustomAttribute<LuaCommandAttribute>(property);
 				if(luaCommandAttribute != null)
 				{
 					m_helpString.Append("\u2022 <color=#3255FFFF>");

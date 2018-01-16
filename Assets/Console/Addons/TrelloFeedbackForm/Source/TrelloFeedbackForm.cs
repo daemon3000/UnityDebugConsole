@@ -81,7 +81,7 @@ namespace Luminosity.Console
 			m_stringBuilder.Length = 0;
 			m_stringBuilder.AppendLine("#Author");
 			m_stringBuilder.AppendFormat("Author: {0}\n", SanitiseString(Email));
-			m_stringBuilder.AppendFormat("Date: {0}\n", DateTime.Now.ToLongDateString());
+			m_stringBuilder.AppendFormat("Date: {0}\n", DateTime.Now.ToString("dddd, MMMM d, yyyy"));
 			m_stringBuilder.AppendLine("#System Info");
 			m_stringBuilder.AppendLine(SanitiseString(SystemInfo));
 
@@ -113,7 +113,7 @@ namespace Luminosity.Console
 			m_stringBuilder.Length = 0;
 			m_stringBuilder.AppendLine("#Author");
 			m_stringBuilder.AppendFormat("Author: {0}\n", SanitiseString(Email));
-			m_stringBuilder.AppendFormat("Date: {0}\n", DateTime.Now.ToLongDateString());
+			m_stringBuilder.AppendFormat("Date: {0}\n", DateTime.Now.ToString("dddd, MMMM d, yyyy"));
 			m_stringBuilder.AppendLine("#System Info");
 			m_stringBuilder.AppendLine(SanitiseString(SystemInfo));
 

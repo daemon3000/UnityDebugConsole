@@ -309,7 +309,7 @@ namespace Luminosity.Console.UI
 		{
 			m_panel.gameObject.SetActive(false);
 
-			Application.CaptureScreenshot(ScreenshotPath);
+			ScreenCapture.CaptureScreenshot(ScreenshotPath);
 			yield return null;
 
 			Uri uri = new Uri(AbsoluteScreenshotPath, UriKind.Absolute);

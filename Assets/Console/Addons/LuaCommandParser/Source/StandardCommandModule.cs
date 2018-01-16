@@ -60,7 +60,7 @@ namespace Luminosity.Console
 		[LuaCommand("Takes a screenshot and saves it to the specified file.")]
 		public void captureScreenshot(string filename)
 		{
-			Application.CaptureScreenshot(filename);
+			ScreenCapture.CaptureScreenshot(filename);
 		}
 	}
 }

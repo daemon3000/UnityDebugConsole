@@ -1,13 +1,19 @@
 #Junk folders
 Library/*
 Temp/*
+Assets/Tests/*
+Assets/Tests*
 Assets/Testing/*
 Assets/Testing*
+Assets/Local/*
+Assets/Local*
 Build/*
+Assets/UnityVS*
 obj/*
+.vs/*
 
 #Junk files
-Assets/Testing.meta
+Assets/Tests.meta
 Assembly-CSharp*
 Assembly-UnityScript*
 Assembly-Boo*
@@ -21,4 +27,5 @@ Assembly-Boo*
 *.pfx
 *.pfx.meta
 *.keystore
-
+Plan.txt
+Plan.txt.meta

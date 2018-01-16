@@ -1270,6 +1270,7 @@ GameObject:
   - component: {fileID: 4068298862128170}
   - component: {fileID: 114675619181431962}
   - component: {fileID: 114473581887476170}
+  - component: {fileID: 114422302474289364}
   m_Layer: 0
   m_Name: debug_console
   m_TagString: Untagged
@@ -2191,6 +2192,7 @@ MonoBehaviour:
   m_PreferredHeight: 48
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114045421575054786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2436,6 +2438,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114099048642958804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2944,6 +2947,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114182803442323902
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2977,6 +2981,7 @@ MonoBehaviour:
   m_PreferredHeight: 40
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114208675344478190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3077,6 +3082,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114227913021107480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3638,6 +3644,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
+  m_LayoutPriority: 1
 --- !u!114 &114310106557240852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3787,6 +3794,7 @@ MonoBehaviour:
   m_PreferredHeight: 40
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114357028366172338
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3805,6 +3813,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114373490785265860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4130,6 +4139,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'System Info:'
+--- !u!114 &114422302474289364
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1676600510626830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e81f3dc5b7ff1e145949e97ffaf797c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114425088012146882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4296,6 +4316,7 @@ MonoBehaviour:
   m_PreferredHeight: 40
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114443280746469722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4580,6 +4601,7 @@ MonoBehaviour:
   m_PreferredHeight: 48
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114473581887476170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4859,6 +4881,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114532922159797128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5615,7 +5638,7 @@ MonoBehaviour:
   m_consoleWindow: {fileID: 114263625423672738}
   m_feedbackUI: {fileID: 114738671504862480}
   m_debugLevel: 2
-  m_createEventSystem: 0
+  m_createEventSystem: 1
   m_dontDestroyOnLoad: 0
 --- !u!114 &114676051047656968
 MonoBehaviour:
@@ -5770,6 +5793,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114692429475410406
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5902,6 +5926,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114721053167163742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5953,6 +5978,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114729181694488458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6515,6 +6541,7 @@ MonoBehaviour:
   m_PreferredHeight: 120
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114846792087927172
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6632,6 +6659,7 @@ MonoBehaviour:
   m_PreferredHeight: 48
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114890986053816876
 MonoBehaviour:
   m_ObjectHideFlags: 1

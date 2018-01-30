@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
 using Luminosity.Console.Internal;
 
 namespace Luminosity.Console.UI
@@ -13,16 +12,13 @@ namespace Luminosity.Console.UI
 		private FeedbackUI m_feedbackUI;
 
 		[SerializeField]
+		private LogScrollView m_logScrollView;
+
+		[SerializeField]
 		private Canvas m_canvas;
 
 		[SerializeField]
 		private RectTransform m_panel;
-
-		[SerializeField]
-		private GameObject m_logMessageTemplate;
-
-		[SerializeField]
-		private RectTransform m_logMessageRoot;
 
 		[SerializeField]
 		private Text m_stackTraceField;
@@ -37,12 +33,6 @@ namespace Luminosity.Console.UI
 		private Button m_sendErrorButton;
 
 		[SerializeField]
-		private Mask m_logMessageMask;
-
-		[SerializeField]
-		private ScrollRect m_logMessageScrollView;
-
-		[SerializeField]
 		private Vector2 m_minWindowSize;
 
 		[SerializeField]
@@ -55,18 +45,18 @@ namespace Luminosity.Console.UI
 		private int m_minStackTraceFieldTopPadding;
 
 		[SerializeField]
-		[Range(1, 10000)]
-		private int m_maxLogMessages;
+		private bool m_stackLogMessages;
 
 		[SerializeField]
 		private MessageFilter[] m_filters;
 
-		private LinkedList<LogMessageEntry> m_messages;
-		private LogMessageEntry m_selectedMessage;
+		private LogMessageCollection m_messages;
 		private CanvasGroup m_canvasGroup;
 		private LayoutElement m_stackTraceLayout;
 		private RectTransform m_stackTranceParent;
+		private int? m_selectedMessage;
 		private float m_defaultStackTraceHeight;
+		private bool m_isOpen;
 
 		public event UnityAction<string> CommandReceived;
 
@@ -75,15 +65,23 @@ namespace Luminosity.Console.UI
 			m_stackTraceLayout = m_stackTracePanel.GetComponent<LayoutElement>();
 			m_stackTranceParent = m_stackTracePanel.parent as RectTransform;
 			m_canvasGroup = m_panel.GetComponent<CanvasGroup>();
-			m_messages = new LinkedList<LogMessageEntry>();
-			m_selectedMessage = null;
+			m_messages = new LogMessageCollection
+			{
+				StackLogMessages = m_stackLogMessages
+			};
+
 			foreach(var filter in m_filters)
 			{
-				filter.Changed += HandleMessageFilterChanged;
+				filter.Changed += OnMessageFilterChanged;
 			}
 
 			m_sendErrorButton.gameObject.SetActive(false);
 			m_defaultStackTraceHeight = m_stackTraceLayout.preferredHeight;
+
+			m_logScrollView.Messages = m_messages;
+			m_logScrollView.EntrySelected += OnLogMessageSelected;
+
+			m_isOpen = false;
 			LoadLayoutChanges();
 		}
 
@@ -108,46 +106,41 @@ namespace Luminosity.Console.UI
 		public void Open()
 		{
 			m_panel.gameObject.SetActive(true);
+			m_logScrollView.OnShown();
+			m_isOpen = true;
 		}
 
 		public void Close()
 		{
-			m_panel.gameObject.SetActive(false);
 			m_commandField.text = string.Empty;
+			m_isOpen = false;
+			m_panel.gameObject.SetActive(false);
+			m_logScrollView.OnHidden();
 		}
 
 		public void AddMessage(LogMessage logMessage)
 		{
-			if(logMessage != null)
+			m_messages.Add(logMessage);
+			foreach(var filter in m_filters)
 			{
-				if(m_messages.Count < m_maxLogMessages)
+				switch(filter.LogLevel)
 				{
-					CreateMessageEntry(logMessage);
-					m_logMessageMask.enabled = false;
-					m_logMessageMask.enabled = true;    //	Force the viewport mask to refresh.
+				case LogLevel.Debug:
+					filter.MessageCount = m_messages.NumberOfDebugMessages;
+					break;
+				case LogLevel.Warning:
+					filter.MessageCount = m_messages.NumberOfWarningMessages;
+					break;
+				case LogLevel.Error:
+					filter.MessageCount = m_messages.NumberOfErrorMessages;
+					break;
 				}
-				else
-				{
-					RecycleMessageEntry(logMessage);
-				}
-
-				Canvas.ForceUpdateCanvases();
-				m_logMessageScrollView.verticalNormalizedPosition = 0.0f;
 			}
 		}
 
 		public void ClearMessageLog()
 		{
-			m_messages.Clear();
-			for(int i = 0; i < m_logMessageRoot.childCount; i++)
-			{
-				Transform child = m_logMessageRoot.GetChild(i);
-				if(child.gameObject != m_logMessageTemplate)
-				{
-					GameObject.Destroy(child.gameObject);
-				}
-			}
-
+			m_messages.RemoveAll();
 			foreach(var filter in m_filters)
 			{
 				filter.MessageCount = 0;
@@ -172,7 +165,10 @@ namespace Luminosity.Console.UI
 
 		public void SendErrorReport()
 		{
-			m_feedbackUI.SendErrorReport(m_selectedMessage.LogMessage);
+			if(m_selectedMessage.HasValue)
+			{
+				m_feedbackUI.SendErrorReport(m_messages[m_selectedMessage.Value]);
+			}
 		}
 
 		public void OnBeginResizeWindowDrag(BaseEventData eventData)
@@ -205,6 +201,8 @@ namespace Luminosity.Console.UI
 				m_stackTraceLayout.preferredHeight = Mathf.Clamp(m_stackTraceLayout.preferredHeight,
 																  m_minStackTraceFieldHeight,
 																  m_stackTranceParent.rect.size.y - m_minStackTraceFieldTopPadding);
+
+				m_logScrollView.OnViewSizeChanged();
 			}
 		}
 
@@ -227,6 +225,7 @@ namespace Luminosity.Console.UI
 				m_stackTraceLayout.preferredHeight = Mathf.Clamp(m_stackTraceLayout.preferredHeight,
 																  m_minStackTraceFieldHeight,
 																  parentSize.y - m_minStackTraceFieldTopPadding);
+				m_logScrollView.OnViewSizeChanged();
 			}
 		}
 
@@ -252,72 +251,33 @@ namespace Luminosity.Console.UI
 			}
 		}
 
-		private void CreateMessageEntry(LogMessage logMessage)
+		private void OnLogMessageSelected(LogMessageEntry entry)
 		{
-			GameObject entryGO = GameObject.Instantiate<GameObject>(m_logMessageTemplate);
-			entryGO.SetActive(true);
-			entryGO.transform.SetParent(m_logMessageRoot, false);
-			entryGO.transform.SetAsLastSibling();
-
-			LogMessageEntry entry = entryGO.GetComponent<LogMessageEntry>();
-			entry.SetMessage(logMessage);
-			entry.Clicked += HandleLogMessageClicked;
-			entry.UserAlternateBackground = m_messages.Count > 0 ? !m_messages.Last.Value.UserAlternateBackground : false;
-			m_messages.AddLast(entry);
-			ApplyFilters(entry);
+			m_sendErrorButton.gameObject.SetActive(entry.Message.LogLevel == LogLevel.Error);
+			m_selectedMessage = entry.MessageID;
+			m_stackTraceField.text = entry.Message.StackTrace;
 		}
 
-		private void RecycleMessageEntry(LogMessage logMessage)
+		private void OnLogMessageDeselected()
 		{
-			var entry = m_messages.First.Value;
-			entry.SetMessage(logMessage);
-			entry.transform.SetAsLastSibling();
-			entry.UserAlternateBackground = m_messages.Count > 0 ? !m_messages.Last.Value.UserAlternateBackground : false;
-			m_messages.RemoveFirst();
-			m_messages.AddLast(entry);
-			ApplyFilters(entry);
+			m_sendErrorButton.gameObject.SetActive(false);
+			m_selectedMessage = null;
+			m_stackTraceField.text = null;
 		}
 
-		private void ApplyFilters(LogMessageEntry entry)
+		private void OnMessageFilterChanged()
 		{
-			bool isOn = false;
-			foreach(var filter in m_filters)
+			LogLevel? filter = null;
+			foreach(var item in m_filters)
 			{
-				if(filter.LogLevel == entry.LogLevel)
+				if(item.IsOn)
 				{
-					filter.MessageCount++;
-					isOn = filter.IsOn;
-					break;
+					filter = filter.HasValue ? filter | item.LogLevel : item.LogLevel;
 				}
 			}
-
-			entry.gameObject.SetActive(isOn);
-		}
-
-		private void HandleLogMessageClicked(LogMessageEntry entry)
-		{
-			if(m_selectedMessage != null)
-			{
-				m_selectedMessage.OnDeselected();
-				m_stackTraceField.text = null;
-			}
-
-			m_sendErrorButton.gameObject.SetActive(entry.LogLevel == LogLevel.Error);
-			m_selectedMessage = entry;
-			m_selectedMessage.OnSelected();
-			m_stackTraceField.text = m_selectedMessage.StackTrace;
-		}
-
-		private void HandleMessageFilterChanged(MessageFilter filter)
-		{
-			foreach(var entry in m_messages)
-			{
-				if(entry.LogLevel == filter.LogLevel)
-				{
-					entry.gameObject.SetActive(filter.IsOn);
-				}
-			}
-
+			
+			m_messages.SetFilter(filter);
+			OnLogMessageDeselected();
 			SaveLayoutChanges();
 		}
 
@@ -339,10 +299,15 @@ namespace Luminosity.Console.UI
 			m_stackTraceLayout.preferredHeight = DebugConsolePrefs.GetFloat("Console_StackTraceHeight", m_stackTraceLayout.preferredHeight);
 			for(int i = 0; i < m_filters.Length; i++)
 			{
-				m_filters[i].Changed -= HandleMessageFilterChanged;
+				m_filters[i].Changed -= OnMessageFilterChanged;
 				m_filters[i].IsOn = DebugConsolePrefs.GetBool("Console_Filter_" + i, true);
-				m_filters[i].Changed += HandleMessageFilterChanged;
+				m_filters[i].Changed += OnMessageFilterChanged;
 			}
+
+			if(m_isOpen)
+				m_logScrollView.OnViewSizeChanged();
+			
+			OnMessageFilterChanged();
 		}
 
 		public void ResetLayout()
@@ -352,8 +317,15 @@ namespace Luminosity.Console.UI
 			m_panel.sizeDelta = m_minWindowSize;
 			for(int i = 0; i < m_filters.Length; i++)
 			{
+				m_filters[i].Changed -= OnMessageFilterChanged;
 				m_filters[i].IsOn = true;
+				m_filters[i].Changed += OnMessageFilterChanged;
 			}
+
+			if(m_isOpen)
+				m_logScrollView.OnViewSizeChanged();
+
+			OnMessageFilterChanged();
 		}
 	}
 }

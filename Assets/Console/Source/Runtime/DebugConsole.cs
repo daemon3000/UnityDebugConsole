@@ -142,7 +142,7 @@ namespace Luminosity.Console
 
 		private void OnAddLogMessage(string message, string stackTrace, LogType logType)
 		{
-			OnAddLogMessage(new LogMessage(LogTypeToLogLevel(logType), GetTimeString(), message, stackTrace));
+			OnAddLogMessage(new LogMessage(LogTypeToLogLevel(logType), message, stackTrace));
 		}
 
 		#region [Public]
@@ -270,7 +270,7 @@ namespace Luminosity.Console
 		{
 			if(m_instance != null && m_instance.IsCoveredByDebugLevel(logLevel))
 			{
-				m_instance.OnAddLogMessage(new LogMessage(logLevel, GetTimeString(), message, stackTrace));
+				m_instance.OnAddLogMessage(new LogMessage(logLevel, message, stackTrace));
 			}
 		}
 

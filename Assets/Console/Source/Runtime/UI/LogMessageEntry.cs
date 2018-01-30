@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace Luminosity.Console.UI
 {
@@ -9,6 +9,8 @@ namespace Luminosity.Console.UI
 	{
 		[SerializeField]
 		private Text m_messageText;
+		[SerializeField]
+		private Text m_messageCountText;
 		[SerializeField]
 		private Image m_background;
 		[SerializeField]
@@ -23,31 +25,26 @@ namespace Luminosity.Console.UI
 		private Color m_altBackgroundColor;
 		[SerializeField]
 		private Color m_selectedBackgroundColor;
+		[SerializeField]
+		private int m_maxLogCount;
 
-		private LogMessage m_message;
+		private RectTransform m_transform;
 		private bool m_isSelected;
 		private bool m_userAlternateBackground;
 
 		public event UnityAction<LogMessageEntry> Clicked;
 
-		public LogMessage LogMessage
+		public LogMessage Message { get; set; }
+		public int MessageID { get; set; }
+
+		public bool IsSelected
 		{
-			get { return m_message; }
+			get { return m_isSelected; }
 		}
 
-		public string Message
+		public float Height
 		{
-			get { return m_message.Message; }
-		}
-
-		public string StackTrace
-		{
-			get { return m_message.StackTrace; }
-		}
-
-		public LogLevel LogLevel
-		{
-			get { return m_message.LogLevel; }
+			get { return Transform.sizeDelta.y; }
 		}
 
 		public bool UserAlternateBackground
@@ -59,6 +56,17 @@ namespace Luminosity.Console.UI
 				UpdateBackgroundColor();
 			}
 		}
+		
+		private RectTransform Transform
+		{
+			get
+			{
+				if(m_transform == null)
+					m_transform = GetComponent<RectTransform>();
+
+				return m_transform;
+			}
+		}
 
 		private void Awake()
 		{
@@ -66,12 +74,15 @@ namespace Luminosity.Console.UI
 			UserAlternateBackground = false;
 		}
 
-		public void SetMessage(LogMessage logMessage)
+		public void Show(LogMessage message, int messageID)
 		{
-			m_messageText.text = logMessage.Message;
-			m_message = logMessage;
+			gameObject.SetActive(true);
 
-			switch(LogLevel)
+			m_messageText.text = message.Message;
+			Message = message;
+			MessageID = messageID;
+			
+			switch(Message.LogLevel)
 			{
 			case LogLevel.Debug:
 				m_messageText.color = m_debugMessageColor;
@@ -83,8 +94,60 @@ namespace Luminosity.Console.UI
 				m_messageText.color = m_errorMessageColor;
 				break;
 			}
+
+			Message.LogCountChanged += OnLogCountChanged;
+			OnLogCountChanged();
 		}
 
+		private void OnLogCountChanged()
+		{
+			if(Message.LogCount > 1)
+			{
+				m_messageCountText.transform.parent.gameObject.SetActive(true);
+
+				if(Message.LogCount > m_maxLogCount)
+				{
+					m_messageCountText.text = string.Concat(m_maxLogCount, "+");
+				}
+				else
+				{
+					m_messageCountText.text = Message.LogCount.ToString();
+				}
+			}
+			else
+			{
+				m_messageCountText.transform.parent.gameObject.SetActive(false);
+			}
+		}
+
+		public void Hide()
+		{
+			if(Message != null)
+			{
+				Message.LogCountChanged -= OnLogCountChanged;
+				Message = null;
+				MessageID = -1;
+			}
+
+			OnDeselected();
+			gameObject.SetActive(false);
+		}
+
+		public void SetParent(RectTransform container)
+		{
+			Transform.SetParent(container, false);
+		}
+
+		public void SetAsFirstSibling()
+		{
+			Transform.SetAsFirstSibling();
+		}
+
+		public void SetAsLastSibling()
+		{
+			Transform.SetAsLastSibling();
+		}
+		
 		public void OnSelected()
 		{
 			m_isSelected = true;

@@ -17,7 +17,7 @@ namespace Luminosity.Console.UI
 
 		private int m_messageCount;
 
-		public event UnityAction<MessageFilter> Changed;
+		public event UnityAction Changed;
 		public LogLevel LogLevel { get { return m_logLevel; } }
 
 		public bool IsOn
@@ -54,7 +54,7 @@ namespace Luminosity.Console.UI
 			{
 				if(Changed != null)
 				{
-					Changed(this);
+					Changed();
 				}
 			});
 		}

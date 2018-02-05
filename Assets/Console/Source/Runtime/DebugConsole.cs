@@ -14,6 +14,8 @@ namespace Luminosity.Console
 		[SerializeField]
 		private FeedbackUI m_feedbackUI;
 		[SerializeField]
+		private HelpUI m_helpUI;
+		[SerializeField]
 		private DebugLevel m_debugLevel;
 		[SerializeField]
 		private bool m_createEventSystem;
@@ -73,7 +75,7 @@ namespace Luminosity.Console
 			{
 				if(command == "help")
 				{
-					Log(LogLevel.Debug, m_commandParser.PrintHelp());
+					m_helpUI.Open(m_commandParser);
 				}
 				else if(command == "clear")
 				{
@@ -87,6 +89,7 @@ namespace Luminosity.Console
 				{
 					m_consoleWindow.ResetLayout();
 					m_feedbackUI.ResetLayout();
+					m_helpUI.ResetLayout();
 				}
 				else if(!string.IsNullOrEmpty(command))
 				{

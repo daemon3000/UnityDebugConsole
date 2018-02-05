@@ -255,7 +255,7 @@ namespace Luminosity.Console.UI
 		{
 			m_sendErrorButton.gameObject.SetActive(entry.Message.LogLevel == LogLevel.Error);
 			m_selectedMessage = entry.MessageID;
-			m_stackTraceField.text = entry.Message.StackTrace;
+			m_stackTraceField.text = string.Concat(entry.Message.Message, "\n\n", entry.Message.StackTrace);
 		}
 
 		private void OnLogMessageDeselected()

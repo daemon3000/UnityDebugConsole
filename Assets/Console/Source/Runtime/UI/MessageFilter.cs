@@ -15,7 +15,7 @@ namespace Luminosity.Console.UI
 		[SerializeField]
 		private int m_maxMessageCount;
 
-		private int m_messageCount;
+		private int m_messageCount = 0;
 
 		public event UnityAction Changed;
 		public LogLevel LogLevel { get { return m_logLevel; } }
@@ -49,7 +49,6 @@ namespace Luminosity.Console.UI
 
 		private void Awake()
 		{
-			m_messageCount = 0;
 			m_toggle.onValueChanged.AddListener(isOn =>
 			{
 				if(Changed != null)

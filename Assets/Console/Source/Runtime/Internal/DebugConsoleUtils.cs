@@ -28,7 +28,7 @@ namespace Luminosity.Console.Internal
 			m_stringBuilder.AppendFormat("Graphics Device Name: {0}\n", SystemInfo.graphicsDeviceName);
 			m_stringBuilder.AppendFormat("Graphics Device Vendor: {0}\n", SystemInfo.graphicsDeviceVendor);
 			m_stringBuilder.AppendFormat("Graphics API: {0}\n", SystemInfo.graphicsDeviceVersion);
-			m_stringBuilder.AppendFormat("Graphich Memory: {0}\n", SystemInfo.graphicsMemorySize);
+			m_stringBuilder.AppendFormat("Graphics Memory: {0}\n", SystemInfo.graphicsMemorySize);
 			m_stringBuilder.AppendFormat("Shader Level: {0}\n", SystemInfo.graphicsShaderLevel);
 			m_stringBuilder.AppendFormat("Max Texture Size: {0}\n", SystemInfo.maxTextureSize);
 			m_stringBuilder.AppendLine();
